@@ -56,6 +56,7 @@ cfg = LanguageModelSAERunnerConfig(
     out_hook_point_layer = 8,
     d_out = 768,
     use_gaussian_inputs=True,
+    module_for_gaussian_input='blocks.8.mlp'
     
     # SAE Parameters
     expansion_factor = 32,

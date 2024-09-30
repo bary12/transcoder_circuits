@@ -377,9 +377,15 @@ class GaussianActivationStore(ActivationsStore):
         self.mean = batch.mean(dim=0)
         self.std = batch.std(dim=0)
 
+        self.mlp = self.model.get_submodule(self.cfg.module_for_gaussian_input)
+
     def next_batch(self):
-        return torch.randn(
+        inputs = torch.randn(
             (self.cfg.store_batch_size, self.cfg.d_in),
             device=self.cfg.device,
             dtype=self.cfg.dtype,
         ) * self.std + self.mean
+
+        outputs = self.mlp(inputs)
+
+        return torch.cat([inputs, outputs], dim=1)

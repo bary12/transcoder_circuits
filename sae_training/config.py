@@ -82,6 +82,7 @@ class LanguageModelSAERunnerConfig(RunnerConfig):
     out_hook_point_layer: Optional[int] = None
     d_out: Optional[int] = None
     use_gaussian_inputs: bool = False
+    module_for_gaussian_inputs: Optional[str] = None
 
     # sparse-connection sparse transcoder stuff
     is_sparse_connection: bool = False
