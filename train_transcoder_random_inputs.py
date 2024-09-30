@@ -23,7 +23,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 lr = 0.0004  # learning rate
-l1_coeff = 0.0000001  # l1 sparsity regularization coefficient
+l1_coeff = 0.0001  # l1 sparsity regularization coefficient
 
 cfg = LanguageModelSAERunnerConfig(
     # Data Generating Function (Model + Training Distibuion)
