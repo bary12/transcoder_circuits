@@ -374,10 +374,10 @@ class GaussianActivationStore(ActivationsStore):
         super().__init__(cfg, model, create_dataloader=create_dataloader)
         
         batch = next(self.dataloader)
-        self.mean = batch.mean(dim=0)
-        self.std = batch.std(dim=0)
+        self.mean = batch[:,:self.cfg.d_in].mean(dim=0)
+        self.std = batch[:,:self.cfg.d_in].std(dim=0)
 
-        self.mlp = self.model.get_submodule(self.cfg.module_for_gaussian_input)
+        self.mlp = self.model.get_submodule(self.cfg.module_for_gaussian_inputs)
 
     def next_batch(self):
         inputs = torch.randn(
