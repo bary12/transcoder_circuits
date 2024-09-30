@@ -23,7 +23,7 @@ from sae_training.utils import LMSparseAutoencoderSessionloader
 from sae_training.train_sae_on_language_model import train_sae_on_language_model
 
 lr = 0.0004 # learning rate
-l1_coeff = 0.00014 # l1 sparsity regularization coefficient
+l1_coeff = 0.0005 # l1 sparsity regularization coefficient
 
 cfg = LanguageModelSAERunnerConfig(
     # Data Generating Function (Model + Training Distibuion)
