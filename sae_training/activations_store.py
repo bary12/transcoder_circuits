@@ -374,8 +374,15 @@ class GaussianActivationStore(ActivationsStore):
         super().__init__(cfg, model, create_dataloader=create_dataloader)
         
         batch = next(self.dataloader)
-        self.mean = batch[:,:self.cfg.d_in].mean(dim=0)
-        self.std = batch[:,:self.cfg.d_in].std(dim=0)
+        if self.cfg.gaussian_inputs_mean is not None:
+            self.mean = self.cfg.gaussian_inputs_mean
+        else:
+            self.mean = batch[:,:self.cfg.d_in].mean()
+        
+        if self.cfg.gaussian_inputs_std is not None:
+            self.std = self.cfg.gaussian_inputs_std
+        else:
+            self.std = batch[:,:self.cfg.d_in].std()
 
         self.mlp = self.model.get_submodule(self.cfg.module_for_gaussian_inputs)
 

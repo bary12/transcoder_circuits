@@ -83,6 +83,8 @@ class LanguageModelSAERunnerConfig(RunnerConfig):
     d_out: Optional[int] = None
     use_gaussian_inputs: bool = False
     module_for_gaussian_inputs: Optional[str] = None
+    gaussian_inputs_mean: Optional[float] = None
+    gaussian_inputs_std: Optional[float] = None
 
     # sparse-connection sparse transcoder stuff
     is_sparse_connection: bool = False
