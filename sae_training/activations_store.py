@@ -386,6 +386,6 @@ class GaussianActivationStore(ActivationsStore):
             dtype=self.cfg.dtype,
         ) * self.std + self.mean
 
-        outputs = self.mlp(inputs)
+        outputs = self.mlp(inputs.unsqueeze(1)).squeeze(1)
 
         return torch.cat([inputs, outputs], dim=1)
