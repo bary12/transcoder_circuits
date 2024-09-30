@@ -22,7 +22,7 @@ import numpy as np
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
-lr = 0.0001  # learning rate
+lr = 0.0004  # learning rate
 l1_coeff = 0.00001  # l1 sparsity regularization coefficient
 
 cfg = LanguageModelSAERunnerConfig(
@@ -80,8 +80,8 @@ cfg = LanguageModelSAERunnerConfig(
     feature_sampling_method=None,
     feature_sampling_window=1000,
     resample_batches=1028,
-    dead_feature_window=5000,
-    dead_feature_threshold=1e-8,
+    dead_feature_window=1000,
+    dead_feature_threshold=1e-6,
 
     # WANDB
     log_to_wandb=False,
