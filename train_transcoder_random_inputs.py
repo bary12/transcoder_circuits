@@ -22,7 +22,7 @@ import numpy as np
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
-lr = 0.0004  # learning rate
+lr = 0.0001  # learning rate
 l1_coeff = 0.00001  # l1 sparsity regularization coefficient
 
 cfg = LanguageModelSAERunnerConfig(
