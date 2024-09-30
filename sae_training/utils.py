@@ -3,7 +3,7 @@ from typing import Tuple
 import torch
 from transformer_lens import HookedTransformer
 
-from sae_training.activations_store import ActivationsStore
+from sae_training.activations_store import ActivationsStore, DataloaderActivationStore, GaussianActivationStore
 from sae_training.config import LanguageModelSAERunnerConfig
 from sae_training.sparse_autoencoder import SparseAutoencoder
 
@@ -75,9 +75,10 @@ class LMSparseAutoencoderSessionloader():
         Loads a DataLoaderBuffer for the activations of a language model.
         '''
         
-        activations_loader = ActivationsStore(
-            cfg, model,
-        )
+        if cfg.use_gaussian_inputs:
+            activations_loader = GaussianActivationStore(cfg, model)
+        else: 
+            activations_loader = DataloaderActivationStore(cfg, model)
         
         return activations_loader
 

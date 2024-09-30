@@ -5,10 +5,12 @@ from datasets import load_dataset
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from transformer_lens import HookedTransformer
+from abc import ABCMeta, abstractmethod
 
 import gc
 
-class ActivationsStore:
+
+class ActivationsStore(metaclass=ABCMeta):
     """
     Class for streaming tokens and generating and storing activations
     while training SAEs. 
@@ -335,7 +337,20 @@ class ActivationsStore:
         
         return dataloader
     
-    
+    @abstractmethod
+    def next_batch(self):
+        """
+        Get the next batch from the current DataLoader. 
+        If the DataLoader is exhausted, refill the buffer and create a new DataLoader.
+        """
+        raise NotImplementedError
+
+
+class DataloaderActivationStore(ActivationsStore):
+    """
+    The dataloader is used both in training and evaluation
+    """
+        
     def next_batch(self):
         """
         Get the next batch from the current DataLoader. 
@@ -348,3 +363,23 @@ class ActivationsStore:
             # If the DataLoader is exhausted, create a new one
             self.dataloader = self.get_data_loader()
             return next(self.dataloader)
+
+
+class GaussianActivationStore(ActivationsStore):
+    """
+    The dataloader is used only to compute the mean and std initially, and in evaluations.
+    """
+    
+    def __init__(self, cfg, model: HookedTransformer, create_dataloader: bool = True):
+        super().__init__(cfg, model, create_dataloader=create_dataloader)
+        
+        batch = next(self.dataloader)
+        self.mean = batch.mean(dim=0)
+        self.std = batch.std(dim=0)
+
+    def next_batch(self):
+        return torch.randn(
+            (self.cfg.store_batch_size, self.cfg.d_in),
+            device=self.cfg.device,
+            dtype=self.cfg.dtype,
+        ) * self.std + self.mean

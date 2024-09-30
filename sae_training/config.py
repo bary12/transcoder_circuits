@@ -64,7 +64,6 @@ class LanguageModelSAERunnerConfig(RunnerConfig):
     """
     Configuration for training a sparse autoencoder on a language model.
     """
-
     # SAE Parameters
     b_dec_init_method: str = "geometric_median"
     expansion_factor: int = 4
@@ -82,6 +81,7 @@ class LanguageModelSAERunnerConfig(RunnerConfig):
     out_hook_point: Optional[str] = None
     out_hook_point_layer: Optional[int] = None
     d_out: Optional[int] = None
+    use_gaussian_inputs: bool = False
 
     # sparse-connection sparse transcoder stuff
     is_sparse_connection: bool = False
